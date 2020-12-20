@@ -5,11 +5,7 @@ import 'package:flutter/material.dart';
 import 'model/constants.dart';
 import 'screens/home_screen.dart';
 
-void main() {
-  // ConfigurationData cfg = ConfigurationData();
-  // setTestData(cfg);
-  runApp(BezVizApp());
-}
+void main() => runApp(BezVizApp());
 
 void setTestData(ConfigurationData cfg) {
   cfg.calculationDate =
@@ -66,7 +62,8 @@ class BezVizApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: glPrimaryBackgroundColor,
         primaryColor: glPrimaryColorDark,
-        textTheme: Theme.of(context).textTheme.apply(bodyColor: glIconTextColor),
+        textTheme:
+            Theme.of(context).textTheme.apply(bodyColor: glIconTextColor),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: AppBarTheme(color: glPrimaryColorDark),
       ),

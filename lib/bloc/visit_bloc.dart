@@ -46,7 +46,6 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
       }
     } else if (event is EventAddVisit) {
       yield StateAddNewVisit();
-      //yield StateVisitError();
     }
   }
 

@@ -124,30 +124,27 @@ class DeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VisitBloc, VisitState>(
-      builder: (context, state) {
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 2),
-          child: MaterialButton(
-            elevation: 5,
-            height: 55.0,
-            minWidth: 40.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            color: glPrimaryColor,
-            textColor: glIconTextColor,
-            child: Icon(
-              Icons.delete_rounded,
-              color: glIconTextColor,
-            ),
-            onPressed: () =>
-                //context.read<VisitBloc>().add(EventDeleteVisit(id: id)),
-                BlocProvider.of<VisitBloc>(context).add(EventDeleteVisit(id: id)),
-            splashColor: Colors.redAccent,
-          ),
-        );
-      },
+    var state = BlocProvider.of<VisitBloc>(context).state;
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 2),
+      child: MaterialButton(
+        elevation: 5,
+        height: 55.0,
+        minWidth: 40.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        color: glPrimaryColor,
+        textColor: glIconTextColor,
+        child: Icon(
+          Icons.delete_rounded,
+          color: glIconTextColor,
+        ),
+        onPressed: () =>
+            //context.read<VisitBloc>().add(EventDeleteVisit(id: id)),
+            BlocProvider.of<VisitBloc>(context).add(EventDeleteVisit(id: id)),
+        splashColor: Colors.redAccent,
+      ),
     );
   }
 }

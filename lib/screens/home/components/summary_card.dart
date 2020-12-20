@@ -13,40 +13,37 @@ class SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VisitBloc, VisitState>(
-      builder: (context, state) {
-        if (state is StateVisitsLoaded && state.visits != null) {
-          int totalDaysInEU = state.totalDaysInEU;
-          return Container(
-            height: 150,
-            margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 5),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black, //glPrimaryColor.withOpacity(0.5),
-                  offset: (Offset(0, 10)),
-                  blurRadius: 10,
-                )
-              ],
-              color: glPrimaryColorDark,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+    var state = BlocProvider.of<VisitBloc>(context).state;
+    if (state is StateVisitsLoaded && state.visits != null) {
+      int totalDaysInEU = state.totalDaysInEU;
+      return Container(
+        height: 150,
+        margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 5),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black, 
+              offset: (Offset(0, 10)),
+              blurRadius: 10,
+            )
+          ],
+          color: glPrimaryColorDark,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+        ),
+        child: Column(
+          children: [
+            UpperRow(),
+            Indicator(
+              visitedDays: totalDaysInEU,
             ),
-            child: Column(
-              children: [
-                UpperRow(),
-                Indicator(
-                  visitedDays: totalDaysInEU,
-                ),
-                BottomRow(
-                  daysInEU: totalDaysInEU,
-                ),
-              ],
+            BottomRow(
+              daysInEU: totalDaysInEU,
             ),
-          );
-        }
-        return Spacer();
-      },
-    );
+          ],
+        ),
+      );
+    }
+    return Spacer();
   }
 }
 
@@ -263,4 +260,3 @@ class UkrFlag extends StatelessWidget {
     );
   }
 }
-

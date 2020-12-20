@@ -14,30 +14,27 @@ class VisitsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VisitBloc, VisitState>(
-      builder: (context, state) {
-        if (state is StateVisitsEmpty) {
-          return Expanded(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
+    var state = BlocProvider.of<VisitBloc>(context).state;
+    if (state is StateVisitsEmpty) {
+      return Expanded(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
-        if (state is StateVisitsLoaded && state.visits != null) {
-          return Expanded(
-            child: ListView.builder(
-              itemCount: state.visits.length,
-              itemBuilder: (context, index) => VisitItem(
-                visit: state.visits[index],
-              ),
-            ),
-          );
-        }
+    if (state is StateVisitsLoaded && state.visits != null) {
+      return Expanded(
+        child: ListView.builder(
+          itemCount: state.visits.length,
+          itemBuilder: (context, index) => VisitItem(
+            visit: state.visits[index],
+          ),
+        ),
+      );
+    }
 
-        return Text('Unknow state');
-      },
-    );
+    return Text('Unknow state');
     // final VisitBloc visitBloc = BlocProvider.of<VisitBloc>(context);
     // if (visits == null || visits.isEmpty) {
     //    return CircularProgressIndicator();
