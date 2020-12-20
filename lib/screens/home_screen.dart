@@ -13,45 +13,33 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<VisitBloc>(
-      create: (context) => VisitBloc(visitsRepository: visitsRepository)..add(EventLoadAllVisits()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Center(
-              child: Text(
-            'Калькулятор безвиза 90/180',
-            style: TextStyle(
-              color: glIconTextColor,
+      create: (context) => VisitBloc(visitsRepository: visitsRepository)
+        ..add(EventLoadAllVisits()),
+      child: BlocBuilder<VisitBloc, dynamic>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Center(
+                  child: Text(
+                'Калькулятор безвиза 90/180',
+                style: TextStyle(
+                  color: glIconTextColor,
+                ),
+              )),
             ),
-          )),
-        ),
-        body: HomeBody(),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: glPrimaryColorDark,
-         // onPressed: () => BlocProvider.of<VisitBloc>(context).add(EventAddVisit()),
-          onPressed: () => VisitBloc(visitsRepository: visitsRepository).add(EventAddVisit()),
-          //{
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => AddNewVisit(),
-            //   ),
-            // );
-          //},
-          tooltip: 'Добавить выезд',
-          child: Icon(Icons.add),
-        ),
-         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
+            body: HomeBody(),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: glPrimaryColorDark,
+              onPressed: () =>
+                  BlocProvider.of<VisitBloc>(context).add(EventAddVisit()),
+              tooltip: 'Добавить выезд',
+              child: Icon(Icons.add),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.miniEndDocked,
+          );
+        },
       ),
     );
   }
-
-  // AppBar buildAppBar() {
-  //   return AppBar(
-  //     elevation: 0.0,
-  //     leading: IconButton(
-  //       icon: SvgPicture.asset("assets/icons/menu.svg"),
-  //       onPressed: () {},
-  //     ),
-  //   );
-  // }
 }

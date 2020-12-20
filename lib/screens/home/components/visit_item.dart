@@ -124,7 +124,6 @@ class DeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = BlocProvider.of<VisitBloc>(context).state;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 2),
       child: MaterialButton(
