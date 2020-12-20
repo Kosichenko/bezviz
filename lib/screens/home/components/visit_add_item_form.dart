@@ -2,42 +2,60 @@ import 'dart:math';
 
 import 'package:bez_viz_calculator/bloc/visit_bloc.dart';
 import 'package:bez_viz_calculator/bloc/visit_event.dart';
-import 'package:bez_viz_calculator/bloc/visit_state.dart';
 import 'package:bez_viz_calculator/model/constants.dart';
 import 'package:bez_viz_calculator/model/visit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:validators/validators.dart';
 
-class VisitAddItemCard extends StatelessWidget {
+class VisitAddItemForm extends StatelessWidget {
   //final Visit visit;
-  const VisitAddItemCard({Key key}) : super(key: key);
+  const VisitAddItemForm({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black,
-            offset: (Offset(0, 10)),
-            blurRadius: 10,
-          )
-        ],
-        color: glPrimaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-      ),
-      margin: EdgeInsets.symmetric(
-        vertical: glDefaultPadding / 2,
-      ),
-      height: glDefaultPadding * 4,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          // VisitDetails(visit: visit),
-          // SaveButton(id: visit.id),
-          // VisitDays(days: visit.daysInPeriod),
-        ],
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              offset: (Offset(0, 10)),
+              blurRadius: 10,
+            )
+          ],
+          color: glPrimaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+        ),
+        margin: EdgeInsets.symmetric(
+          vertical: glDefaultPadding / 2,
+        ),
+        height: glDefaultPadding * 4,
+        child: Form(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Дата въезда'),
+              RaisedButton(
+                child: Text('Pick a date'),
+                onPressed: () {showDateRangePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now(), );},
+              ),
+              TextFormField(
+                validator: (value) {
+                  if (!isDate(value)) {
+                    return 'Не правильная дата';
+                  }
+                  return null;
+                },
+              ),
+              Text('Дата выезда'),
+              // VisitDetails(visit: visit),
+              SaveButton(),
+              // VisitDays(days: visit.daysInPeriod),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -123,7 +141,7 @@ class CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // var state = BlocProvider.of<VisitBloc>(context).state;
+    // var state = BlocProvider.of<VisitBloc>(context).state;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 2),
       child: MaterialButton(
@@ -151,10 +169,7 @@ class CancelButton extends StatelessWidget {
 class SaveButton extends StatelessWidget {
   const SaveButton({
     Key key,
-    @required this.id,
   }) : super(key: key);
-
-  final id;
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +188,7 @@ class SaveButton extends StatelessWidget {
           Icons.save,
           color: glIconTextColor,
         ),
-        onPressed: () => {StateVisitDelete(id: id)},
+        onPressed: () => {},
         splashColor: glAccentColor,
       ),
     );
