@@ -16,3 +16,4 @@ const int constPeriodDays = 180;
 const int maxDaysInEU = 90;
 const int maxMillisecondsSinceEpoch = 8640000000000000;
 final DateTime globalMaxDate = DateTime.fromMillisecondsSinceEpoch(maxMillisecondsSinceEpoch);
+final DateTime globalMinDate = DateTime.fromMillisecondsSinceEpoch(0);

@@ -5,6 +5,7 @@ import 'package:bez_viz_calculator/services/visit_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'add_visit/add_new_visit.dart';
 import 'home/components/home_body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -28,15 +29,21 @@ class HomeScreen extends StatelessWidget {
               )),
             ),
             body: HomeBody(),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: glPrimaryColorDark,
-              onPressed: () =>
-                  BlocProvider.of<VisitBloc>(context).add(EventAddVisit()),
-              tooltip: 'Добавить выезд',
-              child: Icon(Icons.add),
-            ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.miniEndDocked,
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: glPrimaryColorDark,
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddNewVisit(),
+                  ),
+                ),
+              },
+              tooltip: 'Добавить поездку',
+              child: Icon(Icons.add),
+            ),
           );
         },
       ),
