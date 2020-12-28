@@ -193,3 +193,35 @@ class SaveButton extends StatelessWidget {
     );
   }
 }
+
+class ChooseDateButton extends StatelessWidget {
+  const ChooseDateButton({
+    Key key,
+    @required this.id,
+  }) : super(key: key);
+
+  final id;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 2),
+      child: MaterialButton(
+        elevation: 5,
+        height: 55.0,
+        minWidth: 40.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        color: glPrimaryColor,
+        textColor: glIconTextColor,
+        child: Icon(
+          Icons.mode_edit,
+          color: glIconTextColor,
+        ),
+        onPressed: () => {showDatePicker(context: context, firstDate: globalMinDate, lastDate: globalMaxDate, initialDate:  DateTime.now(), )},
+        splashColor: glAccentColor,
+      ),
+    );
+  }
+}
