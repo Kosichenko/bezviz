@@ -35,13 +35,14 @@ class VisitItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           EditButton(id: visit.id),
-          DeleteButton(id: visit.id),
+          DeleteButton(visit: visit),
           VisitDetails(visit: visit),
           VisitDays(days: visit.daysInPeriod),
         ],
       ),
     );
   }
+
 }
 
 class VisitDays extends StatelessWidget {
@@ -50,35 +51,29 @@ class VisitDays extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          margin: EdgeInsets.only(
-            left: glDefaultPadding / 2,
-            right: glDefaultPadding / 2,
-            bottom: glDefaultPadding / 2,
-          ),
-          height: glDefaultPadding * 1.5,
-          width: glDefaultPadding * 1.5,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-          ),
-          child: Text(
-            days.toString(),
-            style: TextStyle(
-              fontSize: glDefaultPadding / 1.5,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              backgroundColor: Colors.white,
-            ),
-            textAlign: TextAlign.left,
-          ),
+    return Container(
+      // margin: EdgeInsets.only(
+      //   left: glDefaultPadding / 2,
+      //   right: glDefaultPadding / 2,
+      //   bottom: glDefaultPadding / 2,
+      // ),
+      height: glDefaultPadding * 1.5,
+      width: glDefaultPadding * 1.5,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white,
+      ),
+      child: Text(
+        days.toString(),
+        style: TextStyle(
+          fontSize: glDefaultPadding / 1.5,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          backgroundColor: Colors.white,
         ),
-      ],
+        textAlign: TextAlign.left,
+      ),
     );
   }
 }
@@ -115,12 +110,10 @@ class VisitDetails extends StatelessWidget {
 }
 
 class DeleteButton extends StatelessWidget {
+  final Visit visit;
   const DeleteButton({
-    Key key,
-    @required this.id,
+    Key key, this.visit
   }) : super(key: key);
-
-  final id;
 
   @override
   Widget build(BuildContext context) {
@@ -139,14 +132,52 @@ class DeleteButton extends StatelessWidget {
           Icons.delete_rounded,
           color: glIconTextColor,
         ),
-        onPressed: () =>
-            //context.read<VisitBloc>().add(EventDeleteVisit(id: id)),
-            BlocProvider.of<VisitBloc>(context).add(EventDeleteVisit(id: id)),
+        onPressed: () {
+          _deleteItem(context);
+        },
         splashColor: Colors.redAccent,
       ),
     );
   }
-}
+
+ void _deleteItem(BuildContext context) async {
+    final confirmation = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text(
+            'Удалить поездку?',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              backgroundColor: Colors.white,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: Text("Да"),
+            ),
+            RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text("Нет"),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmation == true) {
+      BlocProvider.of<VisitBloc>(context).add(EventDeleteVisit(id: visit.id));
+    }
+  }
+
+ }
 
 class EditButton extends StatelessWidget {
   const EditButton({
