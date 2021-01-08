@@ -1,5 +1,6 @@
 import 'package:bez_viz_calculator/bloc/visit_bloc.dart';
 import 'package:bez_viz_calculator/bloc/visit_event.dart';
+import 'package:bez_viz_calculator/generated/l10n.dart';
 import 'package:bez_viz_calculator/model/constants.dart';
 import 'package:bez_viz_calculator/services/visit_repository.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             appBar: AppBar(
               title: Center(
                   child: Text(
-                'Калькулятор безвиза 90/180',
+                S.of(context).app_title,
                 style: TextStyle(
                   color: glIconTextColor,
                 ),
@@ -37,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddNewVisit(),
+                    builder: (context) => VisitEditScreen(),
                   ),
                 ),
               },

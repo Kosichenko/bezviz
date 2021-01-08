@@ -9,14 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:validators/validators.dart';
 import 'package:intl/intl.dart';
 
-class AddNewVisit extends StatelessWidget {
-
+class VisitEditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Введите данные о визите в ЕС'),
+      ),
       body: Container(
-        
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -25,37 +26,142 @@ class AddNewVisit extends StatelessWidget {
               blurRadius: 10,
             )
           ],
-          color: glPrimaryColor,
+          color: glPrimaryColor, 
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
         margin: EdgeInsets.symmetric(
-           vertical: size.height  * .10,
-           horizontal: size.width * .05,
+          vertical: size.height * .03,
+          horizontal: size.width * .05,
         ),
-       height: size.height * 0.8,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text('Дата въезда'),
-            RaisedButton(
-              child: Text('Pick a date'),
-              onPressed: () {showDatePicker(context: context, firstDate: globalMinDate, lastDate: globalMaxDate, initialDate:  DateTime.now(), );},
-            ),
-            TextFormField(
-              validator: (value) {
-                if (!isDate(value)) {
-                  return 'Не правильная дата';
-                }
-                return null;
-              },
-            ),
-            Text('Дата выезда'),
-            // VisitDetails(visit: visit),
-            SaveButton(),
-            // VisitDays(days: visit.daysInPeriod),
-          ],
+        height: size.height * 0.8,
+        padding: EdgeInsets.all(size.height * 0.02),
+        child: SingleChildScrollView(
+          child: VisitEditForm(),
         ),
       ),
+    );
+  }
+}
+
+class VisitEditForm extends StatelessWidget {
+  final startDateController = TextEditingController();
+  final endDateController = TextEditingController();
+  final titleController = TextEditingController();
+  // const VisitEditForm({
+  //   Key key,
+  // }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'Дата въезда',
+          style: TextStyle(fontSize: 28),
+        ),
+        SizedBox(height: glDefaultPadding),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 2),
+          child: MaterialButton(
+            elevation: 5,
+            height: 55.0,
+            minWidth: 40.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            color: glPrimaryColor,
+            textColor: glIconTextColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  '01/10/2020',
+                  style: TextStyle(fontSize: 24),
+                ),
+                Icon(
+                  Icons.date_range,
+                  color: glIconTextColor,
+                ),
+              ],
+            ),
+            onPressed: () => {
+              showDatePicker(
+                context: context,
+                firstDate: globalMinDate,
+                lastDate: globalMaxDate,
+                initialDate: DateTime.now(),
+              )
+            },
+            splashColor: glAccentColor,
+          ),
+        ),
+        SizedBox(height: glDefaultPadding),
+        Text(
+          'Дата выезда',
+          style: TextStyle(fontSize: 28),
+        ),
+        SizedBox(height: glDefaultPadding),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: glDefaultPadding / 2),
+          child: MaterialButton(
+            elevation: 5,
+            height: 55.0,
+            minWidth: 40.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            color: glPrimaryColor,
+            textColor: glIconTextColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  '31/10/2020',
+                  style: TextStyle(fontSize: 24),
+                ),
+                Icon(
+                  Icons.date_range,
+                  color: glIconTextColor,
+                ),
+              ],
+            ),
+            onPressed: () => {
+              showDatePicker(
+                context: context,
+                firstDate: globalMinDate,
+                lastDate: globalMaxDate,
+                initialDate: DateTime.now(),
+              )
+            },
+            splashColor: glAccentColor,
+          ),
+        ),
+        SizedBox(height: glDefaultPadding),
+        TextFormField(
+          style: TextStyle(fontSize: 24),
+          controller: titleController,
+          maxLength: 15,
+          decoration: InputDecoration(
+            fillColor: glIconTextColor,
+            icon: Icon(Icons.edit),
+            hintText: "Цель поездки",
+          ),
+          validator: (value) {
+            if (!isDate(value)) {
+              return 'Не правильная дата';
+            }
+            return null;
+          },
+        ),
+        // VisitDetails(visit: visit),
+        SizedBox(height: glDefaultPadding),
+        SaveButton(),
+        // VisitDays(days: visit.daysInPeriod),
+        SizedBox(height: glDefaultPadding),
+      ],
     );
   }
 }
@@ -197,10 +303,10 @@ class SaveButton extends StatelessWidget {
 class ChooseDateButton extends StatelessWidget {
   const ChooseDateButton({
     Key key,
-    @required this.id,
+    //  @required this.id,
   }) : super(key: key);
 
-  final id;
+  //final id;
 
   @override
   Widget build(BuildContext context) {
@@ -216,10 +322,17 @@ class ChooseDateButton extends StatelessWidget {
         color: glPrimaryColor,
         textColor: glIconTextColor,
         child: Icon(
-          Icons.mode_edit,
+          Icons.date_range,
           color: glIconTextColor,
         ),
-        onPressed: () => {showDatePicker(context: context, firstDate: globalMinDate, lastDate: globalMaxDate, initialDate:  DateTime.now(), )},
+        onPressed: () => {
+          showDatePicker(
+            context: context,
+            firstDate: globalMinDate,
+            lastDate: globalMaxDate,
+            initialDate: DateTime.now(),
+          )
+        },
         splashColor: glAccentColor,
       ),
     );
